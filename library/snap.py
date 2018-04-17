@@ -83,11 +83,22 @@ EXAMPLES = '''
 '''
 
 try:
+    import os
     import subprocess
-except error:
-    module_found = False
+except:
+    error = 'The Ansible snap module requires os and subprocess library.'
+    module_not_found = True
 else:
-    module_found = True
+    module_not_found = False
+
+try:
+    snap = open('/usr/bin/snap')
+    snap.close
+except:
+    error = 'Snap installation missing.'
+    snap_not_found = True
+else:
+    snap_not_found = False
 
 from ansible.module_utils.basic import AnsibleModule
 
@@ -154,8 +165,8 @@ def main():
     module = AnsibleModule(argument_spec = fields)
     (has_changed, result) = choice_map.get(module.params['state'])(module.params)
 
-    if not module_found:
-        module.fail_json(msg='The Ansible snap module requires subprocess library.')
+    if module_not_found or snap_not_found:
+        module.fail_json(msg = error)
     else:
         module.exit_json(changed = has_changed, meta = result)
 
