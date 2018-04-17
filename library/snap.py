@@ -86,7 +86,7 @@ try:
     import os
     import subprocess
 except:
-    error = 'The Ansible snap module requires os and subprocess library.'
+    error = 'The Ansible snap module requires os and subprocess libraries.'
     module_not_found = True
 else:
     module_not_found = False
