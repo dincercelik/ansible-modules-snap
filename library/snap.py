@@ -131,6 +131,7 @@ def snappy(data):
     (output, error) = proc.communicate()
     status = proc.wait()
 
+    has_changed = False
     if output and not error:
         has_changed = True
 
